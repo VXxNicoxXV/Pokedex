@@ -10,8 +10,7 @@ def main(CURRENT_TRAINER):
         in_game = main_menu(trainers, pokemons)
         if in_game is not False:
             CURRENT_TRAINER = in_game
-            in_game_menu(CURRENT_TRAINER)
-        print(pokemons[0].card())
+            in_game_menu(pokemons, CURRENT_TRAINER)
     
     
     
