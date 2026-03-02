@@ -1,6 +1,24 @@
 import os
 
 class Actions:
+    def trainer_report(trainer):
+        owned_pokemons = len(trainer.team)
+        fire = 0
+        water = 0
+        grass = 0
+        for p in trainer.team:
+            levels = []
+            levels.append(p.level)
+            strongest = p
+            if p.health > strongest.health:
+                strongest = p
+            if p.type == "Fuoco":
+                fire += 1
+            elif p.type == "Acqua":
+                water += 1
+            elif p.type == "Erba":
+                grass += 1
+            
     def train_pokemon(pokemon):
         if pokemon.level == 100:
             clear()
