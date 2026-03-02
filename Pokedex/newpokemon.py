@@ -1,3 +1,4 @@
+import math
 from checkinput import CheckInput
 from utilities import clear
 
@@ -16,7 +17,7 @@ class Fire(Pokemon):
         self.attribute = "Potenza fiamma"
         self.type = "Fuoco"
         self.health = 80
-        self.power = 10
+        self.power = 10 + math.floor((self.level / 3))
     def calculate_health(self):
         effective_health = self.health + (self.level * 2) + self.power
         return effective_health
@@ -31,7 +32,7 @@ class Water(Pokemon):
         self.attribute = "Resistenza marea"
         self.type = "Acqua"
         self.health = 90
-        self.power = 8
+        self.power = 8 + math.floor((self.level / 4))
     def calculate_health(self):
         effective_health = self.health + (self.level * 3)
         return effective_health
@@ -42,7 +43,7 @@ class Grass(Pokemon):
         self.attribute = "Rigenerazione"
         self.type = "Erba"
         self.health = 85
-        self.power = 5
+        self.power = 5 + math.floor((self.level / 2))
     def calculate_health(self):
         effective_health = self.health + (self.level * 2) + (self.power * 3)
         return effective_health

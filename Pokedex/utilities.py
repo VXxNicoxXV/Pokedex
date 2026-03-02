@@ -1,6 +1,16 @@
 import os
 
 class Actions:
+    def train_pokemon(pokemon):
+        if pokemon.level == 100:
+            clear()
+            print("Il pokemon scelto ha già raggiunto il livello massimo!")
+            print()
+            return False
+        else:
+            pokemon.level += 1
+            return True
+
     def show_pokemon_card(pokemon):
         if isinstance(pokemon, list):
             print("Ecco le schede dei pokemon: ")
@@ -22,5 +32,6 @@ class Actions:
                 return False
         else:
             return searched
+    
 def clear():
     os.system(os.name == 'nt' and 'cls' or 'clear')

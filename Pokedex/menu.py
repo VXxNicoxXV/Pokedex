@@ -87,6 +87,62 @@ def in_game_menu(pokemons, CURRENT_TRAINER):
                                         print()
                                 break
                         break
+            case "4":
+                if len(CURRENT_TRAINER.team) == 0:
+                    clear()
+                    print("Non hai ancora adottato nessun pokemon!")
+                    print()
+                    continue
+                else:
+                    clear()
+                    print("Scegli quale pokemon della tua squadra vuoi allenare")
+                    print()
+                    Actions.show_pokemon_card(CURRENT_TRAINER.team)
+                    print()
+                    selected_pokemon = input("Inserisci il numero corrispondente al pokemon: ")
+                    check_input = CheckInput.isNumber(selected_pokemon)
+                    if check_input == False:
+                        clear()
+                        print("Input non valido!")
+                        print()
+                        continue
+                    else:
+                        selected_pokemon = int(selected_pokemon)
+                    if selected_pokemon <=0 or selected_pokemon > len(CURRENT_TRAINER.team):
+                        clear()
+                        print("Input non valido!")
+                        print()
+                    else:
+                        training_pokemon = CURRENT_TRAINER.team[selected_pokemon - 1]
+                        clear()
+                        print(f"Stai allenarndo il seguente pokemon: ")
+                        print()
+                        Actions.show_pokemon_card(training_pokemon)
+                        print()
+                        confirm = input("Digita 'si' per confermare oppure 'no' per annullare: ")
+                        match confirm:
+                            case "si":
+                                status = Actions.train_pokemon(training_pokemon)
+                                if status == False:
+                                    print()
+                                    Actions.show_pokemon_card(training_pokemon)
+                                else:
+                                    clear()
+                                    print("Il pokemon è stato allenato con successo, ecco la sua nuova scheda:")
+                                    print()
+                                    Actions.show_pokemon_card(training_pokemon)
+                                    print()
+                            case "no":
+                                clear()
+                                print("Sei stato riportato al menu!")
+                                print()
+                            case _:
+                                clear()
+                                print("Input non valido!")
+                                print()
+
+
+
             case "0":
                 clear()
                 print("Sei tornato al menu principale!")
