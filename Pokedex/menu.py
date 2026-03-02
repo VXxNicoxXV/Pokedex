@@ -8,7 +8,7 @@ from checkinput import CheckInput
 
 
 
-def in_game_menu(pokemons, CURRENT_TRAINER):
+def in_game_menu(pokemons, CURRENT_TRAINER, trainers):
     clear()
     print(f"Benvenuto nel gioco {CURRENT_TRAINER.trainer_name}")
     print()
@@ -87,6 +87,50 @@ def in_game_menu(pokemons, CURRENT_TRAINER):
                                         print()
                                 break
                         break
+            case "2":
+                clear()
+                searched = Actions.find_pokemon(pokemons)
+                if searched == False:
+                    clear()
+                    print("Nessun pokemon corrispondente alla ricerca!")
+                    print()
+                else:
+                    clear()
+                    print("Ecco i pokemon trovati:")
+                    print()
+                    for p in searched:
+                        print(f"{p.card()}")
+            case "3":
+                clear()
+                searched = Actions.find_pokemon(CURRENT_TRAINER.team)
+                if searched == False:
+                    clear()
+                    print("Nessun pokemon corrispondente alla ricerca!")
+                    print()
+                else:
+                    for i,p in enumerate(searched, start = 1):
+                        print(f"{i}) {p.name}")
+                    print()
+                    option = input("Inserisci il numero corrispondente al pokemon di cui vuoi visualizzare la scheda: ")
+                    check_input = CheckInput.isNumber(option)
+                    if check_input == False:
+                        clear()
+                        print("Input non valido!")
+                        print()
+                    else:
+                        option = int(option)
+                        if option <= 0 or option > len(searched):
+                            clear()
+                            print("Input non valido!")
+                            print()
+                        else:
+                            clear()
+                            print(f"Ecco la scheda di {searched[option - 1].name}: ")
+                            print()
+                            print(f"{searched[option - 1].card()}")
+                            print()
+
+
             case "4":
                 if len(CURRENT_TRAINER.team) == 0:
                     clear()
@@ -140,6 +184,36 @@ def in_game_menu(pokemons, CURRENT_TRAINER):
                                 clear()
                                 print("Input non valido!")
                                 print()
+            case "5":
+                clear()
+                print("Ecco la tua squadra: ")
+                print()
+                Actions.show_pokemon_card(CURRENT_TRAINER.team)
+                print()
+                                
+            case "6":
+                empty_team_check = Actions.trainer_report(CURRENT_TRAINER)
+                if empty_team_check == False:
+                    clear()
+                    print("L'allenatore con cui stai giocando non possiede nessun pokemon!")
+                    print()
+                trainers_pokemons_healths = []
+                for t in trainers:
+                    health_sum = Actions.pokemon_healths_sum(t)
+                    trainers_pokemons_healths.append(health_sum)
+                if len(trainers_pokemons_healths) == 0:
+                    clear()
+                    print("I tuoi allenatori non possiedono nessun pokemon!")
+                    print()
+                else:
+                    max_val = max(trainers_pokemons_healths)
+                    max_index = trainers_pokemons_healths.index(max_val)
+                    strongest_trainer = trainers[max_index].trainer_name
+                    print()
+                    print(f"Il tuo allenatore più forte è {strongest_trainer}")
+                    print()
+                    
+                    
 
 
 
@@ -161,9 +235,16 @@ def in_game_menu(pokemons, CURRENT_TRAINER):
 
 
 def main_menu(trainers, pokemons):
+    print(" ____  ____  _  __ _____ _      ____  _     ")
+    print("/  __\/  _ \/ |/ //  __// \__/|/  _ \/ \  /|")
+    print("|  \/|| / \||   / |  \  | |\/||| / \|| |\ ||")
+    print("|  __/| \_/||   \ |  /_ | |  ||| \_/|| | \||")
+    print("\_/   \____/\_|\_\\____\ \_/  \|\____/\_/  \|")
+    print()
     print("1) Gioca")
     print("2) Crea nuovo allenatore")
     print("3) Registra nuovo pokemon")
+    print("0) Esci dal gioco")
     option = input("Inserisci il numero della tua azione: ")
     match option:
         case "1":
@@ -186,7 +267,12 @@ def main_menu(trainers, pokemons):
             clear()
             pokemon = new_pokemon()
             pokemons.append(pokemon)
+            clear()
+            print("Nuovo pokemon aggiunto con successo!")
+            print()
             return False
+        case "0":
+            return "exit"
         case _:
             clear()
             print("Opzione non valida")

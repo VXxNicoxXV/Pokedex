@@ -1,15 +1,21 @@
 import os
 
 class Actions:
+    def pokemon_healths_sum(trainer):
+        health_sum = 0
+        for p in trainer.team:
+            health_sum += p.health
+        return health_sum
+    
     def trainer_report(trainer):
         owned_pokemons = len(trainer.team)
         fire = 0
         water = 0
         grass = 0
+        levels = []
+        strongest = trainer.team[0]
         for p in trainer.team:
-            levels = []
             levels.append(p.level)
-            strongest = p
             if p.health > strongest.health:
                 strongest = p
             if p.type == "Fuoco":
@@ -18,6 +24,19 @@ class Actions:
                 water += 1
             elif p.type == "Erba":
                 grass += 1
+        if len(levels) == 0:
+            return False
+        else:
+            medium_level = sum(levels)/len(trainer.team)
+        clear()
+        print(f"{trainer.trainer_name} ecco il tuo report:")
+        print()
+        print(f"Possiedi in tutto {owned_pokemons} pokemon tra cui:\nFuoco: {fire}\nAcqua: {water}\nErba: {grass}")
+        print()
+        print(f"Il pokemon più forte della tua squadra è:")
+        print(f"{strongest.card()}")
+        print()
+        print(f"Il livello medio dei tuoi pokemon è: {medium_level}")
             
     def train_pokemon(pokemon):
         if pokemon.level == 100:
