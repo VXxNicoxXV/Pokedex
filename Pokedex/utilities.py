@@ -1,13 +1,26 @@
 import os
 
 class Actions:
+    def show_pokemon_card(pokemon):
+        if isinstance(pokemon, list):
+            print("Ecco le schede dei pokemon: ")
+            print()
+            for i,p in enumerate(pokemon, start = 1):
+                print(f"{i}) {p.card()}")
+        else:
+            print("Ecco la scheda del pokemon: ")
+            print()
+            print(pokemon.card())
+
     def find_pokemon(pokemons):
         searched = []
         searching_pokemon = input("Inserisci il nome o il nickname del pokemon che stai cercando: ")
         for p in pokemons:
             if searching_pokemon in p.name or searching_pokemon in p.nickname:
                 searched.append(p)
-        for i,s in enumerate(searched, start = 1):
-            print(f"{i}) {s.card()}")
+        if len(searched) == 0:
+                return False
+        else:
+            return searched
 def clear():
-    os.system('cls' if os.name == 'nt' else 'clear')
+    os.system(os.name == 'nt' and 'cls' or 'clear')

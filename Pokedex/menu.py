@@ -3,6 +3,7 @@ from newtrainer import new_trainer_data
 from choosetrainer import choose_trainer
 from newpokemon import new_pokemon
 from utilities import Actions
+from checkinput import CheckInput
 
 
 
@@ -26,7 +27,75 @@ def in_game_menu(pokemons, CURRENT_TRAINER):
         match option:
             case "1":
                 clear()
-                chosen_pokemon = Actions.find_pokemon(pokemons)
+                searched = Actions.find_pokemon(pokemons)
+                if searched == False:
+                    clear()
+                    print("Nessun pokemon corrispondente alla ricerca!")
+                    print()
+                    continue
+                else:
+                    while True:
+                        clear()
+                        Actions.show_pokemon_card(searched)
+                        selected_pokemon = input("Inserisci il numero corrispondente al pokemon che vuoi adottare: ")
+                        check_input = CheckInput.isNumber(selected_pokemon)
+                        if check_input == False:
+                            clear()
+                            print("Input non valido!")
+                            print()
+                            break
+                        else:       
+                            selected_pokemon = int(selected_pokemon)
+                        if selected_pokemon <= 0 or selected_pokemon > len(searched):
+                            clear()
+                            print("Input non valido!")
+                            print()
+                            break
+                        else:
+                            clear()
+                            print("Stai adottando: ")
+                            print()
+                            Actions.show_pokemon_card(searched[selected_pokemon - 1])
+                            print()
+                            while True:
+                                confirm = input("Digita 'si' per confermare oppure 'no' per annullare: ")
+                                match confirm.strip().lower():
+                                    case "si":
+                                        if len(CURRENT_TRAINER.team) >= 6:
+                                            clear()
+                                            print("La tua squadra è già al completo!")
+                                            print()
+                                            break
+                                        else:
+                                            clear()
+                                            adopted = searched[selected_pokemon - 1]
+                                            CURRENT_TRAINER.team.append(adopted)
+                                            pokemons.remove(adopted)
+                                            print(f"Adesso il {adopted.name} fa parte della tua squadra!")
+                                            print()
+                                            break
+
+
+                                    case "no":
+                                        clear()
+                                        print("Annullato con successo")
+                                        print()
+                                        break
+                                    case _:
+                                        clear()
+                                        print("Input non valido!")
+                                        print()
+                                break
+                        break
+            case "0":
+                clear()
+                print("Sei tornato al menu principale!")
+                print()
+                CURRENT_TRAINER = False
+                return CURRENT_TRAINER
+
+
+                                
             case _:
                 clear()
                 print("Input non valido!")
