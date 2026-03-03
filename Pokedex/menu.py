@@ -185,11 +185,16 @@ def in_game_menu(pokemons, CURRENT_TRAINER, trainers):
                                 print("Input non valido!")
                                 print()
             case "5":
-                clear()
-                print("Ecco la tua squadra: ")
-                print()
-                Actions.show_pokemon_card(CURRENT_TRAINER.team)
-                print()
+                if len(CURRENT_TRAINER.team) == 0:
+                    clear()
+                    print("Non hai ancora adottato nessun pokemon!")
+                    print()
+                else:
+                    clear()
+                    print("Ecco la tua squadra: ")
+                    print()
+                    Actions.show_pokemon_card(CURRENT_TRAINER.team)
+                    print()
                                 
             case "6":
                 empty_team_check = Actions.trainer_report(CURRENT_TRAINER)

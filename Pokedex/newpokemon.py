@@ -9,7 +9,10 @@ class Pokemon:
         self.health = 0
         self.level = level
     def card(self):
-        return f"╔══════════════════════════════╗\n║    {self.name} ({self.type}) Lv.{self.level}        ║\n║    Soprannome: {self.nickname}             ║\n║    PS: {self.calculate_health()}                   ║\n║    {self.attribute}: {self.power}        ║\n╚══════════════════════════════╝\n"
+        if self.type == "Creature Non Classificate":
+            return f"╔══════════════════════════════╗\n║    {self.name} ({self.type}) Lv.{self.level}        ║\n║    Soprannome: {self.nickname}             ║\n║    PS: {self.health}                   ║\n╚══════════════════════════════╝\n"
+        else:
+            return f"╔══════════════════════════════╗\n║    {self.name} ({self.type}) Lv.{self.level}        ║\n║    Soprannome: {self.nickname}             ║\n║    PS: {self.calculate_health()}                   ║\n║    {self.attribute}: {self.power}        ║\n╚══════════════════════════════╝\n"
         
 class Fire(Pokemon):
     def __init__(self, name, level, nickname):
@@ -47,6 +50,14 @@ class Grass(Pokemon):
     def calculate_health(self):
         effective_health = self.health + (self.level * 2) + (self.power * 3)
         return effective_health
+
+class Foreign(Pokemon):
+    def __init__(self, name, level, nickname, health):
+        super().__init__(name, level, nickname)
+        self.type = "Creature Non Classificate"
+        self.health = health
+    def calculate_health(self):
+        return self.health
 
 
         
@@ -118,9 +129,10 @@ def new_pokemon():
         print("1) Fuoco")
         print("2) Acqua")
         print("3) Erba")
+        print("4) Creatura esterna")
         print()
         pokemon_type = input("Inserisci il numero corrispondente al tipo: ")
-        pokemon_type = pokemon_type.strip()
+        clear()
         match pokemon_type:
             case "1":
                 pokemon = Fire(pokemon_name, level, nickname)
@@ -128,6 +140,26 @@ def new_pokemon():
                 pokemon = Water(pokemon_name, level, nickname)
             case "3":
                 pokemon = Grass(pokemon_name, level, nickname)
+            case "4":
+                while True:
+                    health = input("Quanti PS ha il tuo pokemon: ")
+                    check_input = CheckInput.isNumber(health)
+                    if check_input == False:
+                        clear()
+                        print("Input non valido!")
+                        print()
+                        continue
+                    else:
+                        health = int(health)
+                    if health <= 0:
+                        clear()
+                        print("La salute non può essere negativa o pari a 0!")
+                        print()
+                        continue
+                    else:
+                        pokemon = Foreign(pokemon_name, level, nickname, health)
+                        break
+                    
             case _:
                 clear()
                 print("Input non valido!")
